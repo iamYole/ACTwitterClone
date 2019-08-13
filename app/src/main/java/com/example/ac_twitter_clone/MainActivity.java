@@ -64,13 +64,13 @@ public class MainActivity extends AppCompatActivity {
                     public void done(ParseException e) {
                         if(e==null){
                             FancyToast.makeText(MainActivity.this,username.getText().toString()+" signed up successfully", Toast.LENGTH_LONG,FancyToast.SUCCESS,false).show();
-                            progressBar.dismiss();
                             startTwitter();
                             finish();
                         }
                         else {
                             FancyToast.makeText(MainActivity.this,e.getMessage(), Toast.LENGTH_LONG,FancyToast.ERROR,false).show();
                         }
+                        progressBar.dismiss();
                     }
                 });
             }

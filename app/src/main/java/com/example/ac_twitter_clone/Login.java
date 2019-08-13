@@ -48,13 +48,13 @@ public class Login extends AppCompatActivity {
                     public void done(ParseUser user, ParseException e) {
                         if(e==null){
                             FancyToast.makeText(Login.this,user.getUsername()+" Logged in successfully", Toast.LENGTH_LONG,FancyToast.SUCCESS,false).show();
-                            progressBar.dismiss();
                             startTwitter();
                             finish();
                         }
                         else {
                             FancyToast.makeText(Login.this,e.getMessage(), Toast.LENGTH_LONG,FancyToast.ERROR,false).show();
                         }
+                        progressBar.dismiss();
                     }
                 });
             }catch(Exception ex){
