@@ -97,6 +97,9 @@ public class TwitterUsers extends AppCompatActivity implements AdapterView.OnIte
                         finish();
                     }
                 });
+            case R.id.newTweet:
+                Intent intent=new Intent(TwitterUsers.this,SendTweet.class);
+                startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);

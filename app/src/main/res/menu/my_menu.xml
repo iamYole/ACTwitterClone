@@ -4,5 +4,12 @@
 <item
     android:id="@+id/LogOut"
     android:title="Logout"
-    app:showAsAction="always"/>
+    app:showAsAction="always"
+    android:orderInCategory="101"/>
+    <item
+        android:id="@+id/newTweet"
+        android:icon="@drawable/ic_send_black_24dp"
+        android:title="Tweet"
+        app:showAsAction="always"
+        android:orderInCategory="100"/>
 </menu>
