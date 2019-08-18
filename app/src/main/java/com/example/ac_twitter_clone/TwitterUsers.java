@@ -20,6 +20,7 @@ import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
 import java.util.ArrayList;
@@ -61,11 +62,19 @@ public class TwitterUsers extends AppCompatActivity implements AdapterView.OnIte
                             tUsers.add(twitterUsers.getUsername());
                         }
                         listView.setAdapter(adapter);
+
+                        for (String twitterUser: tUsers) {
+                            if (ParseUser.getCurrentUser().getList("fanOf") != null) {
+                                if (ParseUser.getCurrentUser().getList("fanOf").contains(twitterUser)) {
+                                    listView.setItemChecked(tUsers.indexOf(twitterUser), true);
+                                }
+                            }
+                        }
                     }
                 }
             });
         }catch(Exception ex){
-
+            FancyToast.makeText(TwitterUsers.this,ex.getMessage(), Toast.LENGTH_LONG,FancyToast.ERROR,false).show();
         }
     }
     @Override
@@ -99,10 +108,27 @@ public class TwitterUsers extends AppCompatActivity implements AdapterView.OnIte
 
         if(checkedTextView.isChecked()){
             FancyToast.makeText(TwitterUsers.this,"You are now following "+tUsers.get(position),Toast.LENGTH_SHORT,FancyToast.INFO,false).show();
+            ParseUser.getCurrentUser().add("fanOf",tUsers.get(position));
         }
         else
         {
             FancyToast.makeText(TwitterUsers.this,"You unfollowed "+tUsers.get(position),Toast.LENGTH_SHORT,FancyToast.INFO,false).show();
+            ParseUser.getCurrentUser().getList("fanOf").remove(tUsers.get(position));
+
+            List userFanList=ParseUser.getCurrentUser().getList("fanOf");
+            ParseUser.getCurrentUser().remove("fanOf");
+            ParseUser.getCurrentUser().put("fanOf",userFanList);
+        }
+        try {
+            ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+
+                }
+            });
+        }
+        catch (Exception ex){
+            FancyToast.makeText(TwitterUsers.this,ex.getMessage(),Toast.LENGTH_LONG,FancyToast.INFO,false).show();
         }
     }
 }
