@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView email,username,password;
     private Button btnSignup,btnLogin;
+    private ProgressDialog progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,12 +51,13 @@ public class MainActivity extends AppCompatActivity {
         else {
             try
             {
+                ParseUser.logOut();
                 ParseUser user=new ParseUser();
                 user.setEmail(email.getText().toString());
                 user.setUsername(username.getText().toString());
                 user.setPassword(password.getText().toString());
 
-                final ProgressDialog progressBar = new ProgressDialog(this);
+                progressBar = new ProgressDialog(this);
                 progressBar.setMessage("Signing up " + username.getText().toString());
                 progressBar.show();
 
@@ -63,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void done(ParseException e) {
                         if(e==null){
-                            FancyToast.makeText(MainActivity.this,username.getText().toString()+" signed up successfully", Toast.LENGTH_LONG,FancyToast.SUCCESS,false).show();
+                            //FancyToast.makeText(MainActivity.this,username.getText().toString()+" signed up successfully", Toast.LENGTH_LONG,FancyToast.SUCCESS,false).show();
                             startTwitter();
                             finish();
                         }
@@ -76,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
             }
             catch (Exception ex){
                 FancyToast.makeText(MainActivity.this,ex.getMessage(), Toast.LENGTH_LONG,FancyToast.ERROR,false).show();
+                progressBar.dismiss();
             }
         }
     }

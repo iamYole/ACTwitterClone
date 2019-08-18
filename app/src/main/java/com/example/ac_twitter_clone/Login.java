@@ -43,11 +43,12 @@ public class Login extends AppCompatActivity {
             progressBar.show();
             try
             {
+                ParseUser.logOut();
                 ParseUser.logInInBackground(email.getText().toString(), password.getText().toString(), new LogInCallback() {
                     @Override
                     public void done(ParseUser user, ParseException e) {
                         if(e==null){
-                            FancyToast.makeText(Login.this,user.getUsername()+" Logged in successfully", Toast.LENGTH_LONG,FancyToast.SUCCESS,false).show();
+                           // FancyToast.makeText(Login.this,user.getUsername()+" Logged in successfully", Toast.LENGTH_LONG,FancyToast.SUCCESS,false).show();
                             startTwitter();
                             finish();
                         }
